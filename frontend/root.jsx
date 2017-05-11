@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Clock from './clock';
 
-class Root extends React.Component {
+const Root = () => {
 
-  render(){
-    return(
-      <div>
-        Testing
-      </div>
-    );
-  }
+  return(
+    <div>
+      <Clock />
+    </div>
+  );
 
-}
+};
+
 
 export default Root;

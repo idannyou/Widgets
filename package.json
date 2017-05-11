@@ -4,7 +4,8 @@
   "description": "Using React to create a bunch of widgets",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --inline"
   },
   "repository": {
     "type": "git",
