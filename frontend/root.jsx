@@ -7,7 +7,8 @@ class Root extends React.Component {
   constructor(){
     super();
     this.state = {
-      children: {}
+      children: {},
+      currKey: 0
     };
 
     this.addClock = this.addClock.bind(this);
@@ -17,7 +18,7 @@ class Root extends React.Component {
 
   addClock(){
     let newChildren = Object.assign({}, this.state.children);
-    let currKey = Object.keys(newChildren).length;
+    let currKey = this.state.currKey;
     newChildren[currKey] = (
       <div key={currKey}>
         <h1 onClick={() => this.onClose(currKey)}>X</h1>
@@ -25,11 +26,12 @@ class Root extends React.Component {
       </div>
     );
     this.setState({children: newChildren});
+    this.setState({currKey: this.state.currKey + 1});
   }
 
   addWeather(){
     let newChildren = Object.assign({}, this.state.children);
-    let currKey = Object.keys(newChildren).length;
+    let currKey = this.state.currKey;
     newChildren[currKey] = (
       <div key={currKey}>
         <h1 onClick={() => this.onClose(currKey)}>X</h1>
@@ -39,6 +41,7 @@ class Root extends React.Component {
       </div>
     );
     this.setState({children: newChildren});
+    this.setState({currKey: this.state.currKey + 1});
   }
 
   onClose(key){
