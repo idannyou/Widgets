@@ -11,32 +11,18 @@ class Root extends React.Component {
       currKey: 0
     };
 
-    this.addClock = this.addClock.bind(this);
-    this.addWeather = this.addWeather.bind(this);
+    this.addComp = this.addComp.bind(this);
     this.onClose = this.onClose.bind(this);
   }
 
-  addClock(){
-    let newChildren = Object.assign({}, this.state.children);
-    let currKey = this.state.currKey;
-    newChildren[currKey] = (
-      <div key={currKey}>
-        <h1 onClick={() => this.onClose(currKey)}>X</h1>
-        <Clock />
-      </div>
-    );
-    this.setState({children: newChildren});
-    this.setState({currKey: this.state.currKey + 1});
-  }
-
-  addWeather(){
+  addComp(comp){
     let newChildren = Object.assign({}, this.state.children);
     let currKey = this.state.currKey;
     newChildren[currKey] = (
       <div key={currKey}>
         <h1 onClick={() => this.onClose(currKey)}>X</h1>
         <h1>
-          Weather Testing {currKey}
+          {comp}
         </h1>
       </div>
     );
@@ -61,8 +47,8 @@ class Root extends React.Component {
   render(){
     return(
       <div>
-        <button type='button' onClick={this.addClock}>Add Clock</button>
-        <button type='button' onClick={this.addWeather}>Add Weather</button>
+        <button type='button' onClick={() => this.addComp(<Clock/>)}>Add Clock</button>
+        <button type='button' onClick={() => this.addComp('weather testing')}>Add Weather</button>
         {this.objToArray(this.state.children)}
       </div>
     );
