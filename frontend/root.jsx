@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Clock from './clock';
+import Weather from './weather';
 
 class Root extends React.Component {
 
@@ -25,7 +26,6 @@ class Root extends React.Component {
             aria-hidden="true"
             onClick={() => this.onClose(currKey)}
           >
-
           </i>
           {comp}
         </div>
@@ -56,7 +56,7 @@ class Root extends React.Component {
       <div className='container'>
         <div className='container-button'>
           <button type='button' onClick={() => this.addComp(<Clock />)}>Add Clock</button>
-          <button type='button' onClick={() => this.addComp('weather testing')}>Add Weather</button>
+          <button type='button' onClick={() => this.addComp(<Weather />)}>Add Weather</button>
         </div>
         {this.objToArray(this.state.children)}
       </div>
