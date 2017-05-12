@@ -17,6 +17,7 @@
 
 .comp-delete{
   position: absolute;
+  cursor: pointer;
   color: red;
   top: 10px;
   left: 10px;
