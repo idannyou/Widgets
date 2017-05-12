@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 
 class Clock extends React.Component{
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       date_time: new Date()
     };
@@ -35,13 +35,14 @@ class Clock extends React.Component{
   render(){
     return(
       <div className='clock-container comp'>
-        <h1>Clock</h1>
-        <h2>
-          {this.state.date_time.toDateString()}
-        </h2>
-        <h2>
-          {this.state.date_time.toLocaleTimeString()}
-        </h2>
+        <div className='time-container'>
+          <h2>
+            {this.state.date_time.toDateString()}
+          </h2>
+          <h2>
+            {this.state.date_time.toLocaleTimeString()}
+          </h2>
+        </div>
       </div>
     );
   }

@@ -26,7 +26,7 @@ class Root extends React.Component {
             >
             X
           </button>
-          {comp} {currKey}
+          {comp}
         </div>
 
       </div>
@@ -50,10 +50,11 @@ class Root extends React.Component {
   }
 
   render(){
+
     return(
       <div className='container'>
         <div className='container-button'>
-          <button type='button' onClick={() => this.addComp(<Clock/>)}>Add Clock</button>
+          <button type='button' onClick={() => this.addComp(<Clock />)}>Add Clock</button>
           <button type='button' onClick={() => this.addComp('weather testing')}>Add Weather</button>
         </div>
         {this.objToArray(this.state.children)}
