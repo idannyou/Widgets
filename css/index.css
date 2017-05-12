@@ -17,6 +17,7 @@
 
 .comp-delete{
   position: absolute;
+  color: red;
   top: 10px;
   left: 10px;
 }
@@ -34,6 +35,8 @@
 }
 
 .clock-container{
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 20px;
   color: black;
   text-align: center;
   width: 400px;
@@ -51,4 +54,5 @@
   background-color: rgba(255, 255, 255, .9);
   width: 150px;
   border-radius: 4px;
+  padding: 10px 0px;
 }

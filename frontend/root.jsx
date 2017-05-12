@@ -20,12 +20,13 @@ class Root extends React.Component {
     newChildren[currKey] = (
       <div key={currKey}>
         <div className='comp-container'>
-          <button
+          <i
+            className="comp-delete fa fa-times"
+            aria-hidden="true"
             onClick={() => this.onClose(currKey)}
-            className='comp-delete'
-            >
-            X
-          </button>
+          >
+
+          </i>
           {comp}
         </div>
 
