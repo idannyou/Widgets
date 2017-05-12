@@ -34,7 +34,7 @@ class Clock extends React.Component{
 
   render(){
     return(
-      <div>
+      <div className='clock-container'>
         <h1>Clock</h1>
         <h2>
           {this.state.date_time.toDateString()}

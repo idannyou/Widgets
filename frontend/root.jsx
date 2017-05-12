@@ -10,7 +10,6 @@ class Root extends React.Component {
       children: {},
       currKey: 0
     };
-
     this.addComp = this.addComp.bind(this);
     this.onClose = this.onClose.bind(this);
   }
@@ -20,10 +19,16 @@ class Root extends React.Component {
     let currKey = this.state.currKey;
     newChildren[currKey] = (
       <div key={currKey}>
-        <h1 onClick={() => this.onClose(currKey)}>X</h1>
-        <h1>
-          {comp}
-        </h1>
+        <div className='comp-container'>
+          <button
+            onClick={() => this.onClose(currKey)}
+            className='comp-delete'
+            >
+            X
+          </button>
+          {comp} {currKey}
+        </div>
+
       </div>
     );
     this.setState({children: newChildren});
@@ -46,9 +51,11 @@ class Root extends React.Component {
 
   render(){
     return(
-      <div>
-        <button type='button' onClick={() => this.addComp(<Clock/>)}>Add Clock</button>
-        <button type='button' onClick={() => this.addComp('weather testing')}>Add Weather</button>
+      <div className='container'>
+        <div className='container-button'>
+          <button type='button' onClick={() => this.addComp(<Clock/>)}>Add Clock</button>
+          <button type='button' onClick={() => this.addComp('weather testing')}>Add Weather</button>
+        </div>
         {this.objToArray(this.state.children)}
       </div>
     );
