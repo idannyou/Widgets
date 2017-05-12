@@ -13,6 +13,8 @@
   display: flex;
   justify-content: center;
   position: relative;
+  border: 1px solid red;
+  height: 100px;
 }
 
 .comp-delete{
@@ -24,9 +26,17 @@
 .container-button{
   display: flex;
   justify-content: space-around;
+  border: 1px solid black;
 }
 
 /*clock*/
+
+.comp{
+  position: absolute;
+  top: 0;
+  left: 20px;
+}
+
 .clock-container{
   width: 300px;
   display: flex;
@@ -34,5 +44,4 @@
   justify-content: center;
   border: 1px solid black;
   border-radius: 4px;
-  position: relative;
 }
