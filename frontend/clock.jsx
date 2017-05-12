@@ -19,17 +19,17 @@ class Clock extends React.Component{
     // setInterval sets up a recurring timer and returns
     // a handle
     // clear interval, so setInterval stops running after
-    // DOM unmounts
-    this.clearInterval(this.handle);
+    // Component unmounts
+    clearInterval(this.handle);
     this.handle = 0;
   }
 
   tick(){
-    this.handle = this.setState({date_time: new Date()});
+    this.setState({date_time: new Date()});
   }
 
   updateTime(){
-    setInterval(() => this.tick(), 1000);
+    this.handle = setInterval(() => this.tick(), 1000);
   }
 
   render(){
