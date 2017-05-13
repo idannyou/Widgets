@@ -11,8 +11,15 @@ class Root extends React.Component {
       children: {},
       currKey: 0
     };
+    this.currPos = {};
     this.addComp = this.addComp.bind(this);
     this.onClose = this.onClose.bind(this);
+  }
+
+  componentDidMount(){
+    navigator.geolocation.getCurrentPosition((pos) => {
+      this.currPos = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+    });
   }
 
   addComp(comp){
@@ -56,7 +63,7 @@ class Root extends React.Component {
       <div className='container'>
         <div className='container-button'>
           <button type='button' onClick={() => this.addComp(<Clock />)}>Add Clock</button>
-          <button type='button' onClick={() => this.addComp(<Weather />)}>Add Weather</button>
+          <button type='button' onClick={() => this.addComp(<Weather currPos={this.currPos}/>)}>Add Weather</button>
         </div>
         {this.objToArray(this.state.children)}
       </div>

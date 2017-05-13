@@ -32,7 +32,8 @@
 /*clock*/
 
 .comp{
-
+  width: 400px;
+  height: 200px;
 }
 
 .clock-container{
@@ -40,8 +41,6 @@
   font-size: 20px;
   color: black;
   text-align: center;
-  width: 400px;
-  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,4 +55,9 @@
   width: 150px;
   border-radius: 4px;
   padding: 10px 0px;
+}
+
+/*weather*/
+.weather{
+  
 }

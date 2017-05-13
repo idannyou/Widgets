@@ -3,14 +3,22 @@ import ReactDOM from 'react-dom';
 
 class Weather extends React.Component{
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+
   }
 
+
+
   render(){
+    let currPos = (this.props.currPos !== {})? this.props.currPos:'Location Not Found';
     return(
-      <div>
-        Testing
+      <div className='weather-container comp'>
+        <div className='weather'>
+          <h1>
+            {currPos.toString()}
+          </h1>
+        </div>
       </div>
     );
   }

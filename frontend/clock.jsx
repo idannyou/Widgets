@@ -36,12 +36,12 @@ class Clock extends React.Component{
     return(
       <div className='clock-container comp'>
         <div className='time-container'>
-          <h2>
+          <h1>
             {this.state.date_time.toDateString()}
-          </h2>
-          <h2>
+          </h1>
+          <h1>
             {this.state.date_time.toLocaleTimeString()}
-          </h2>
+          </h1>
         </div>
       </div>
     );
