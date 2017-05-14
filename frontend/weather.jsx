@@ -9,7 +9,8 @@ class Weather extends React.Component{
       location: null,
       temp: null,
       temp_max: null,
-      temp_min: null
+      temp_min: null,
+      icons: null
     };
     this.currPos = null;
     this.loadWeather = this.loadWeather.bind(this);
@@ -44,9 +45,10 @@ class Weather extends React.Component{
         this.setState(
           {
             location: data.name,
-            temp: `${this.KtoF(data.main.temp)}F`,
-            temp_max: `${this.KtoF(data.main.temp_max)}F`,
-            temp_min: `${this.KtoF(data.main.temp_min)}F`
+            temp: `${this.KtoF(data.main.temp)} F`,
+            temp_max: `${this.KtoF(data.main.temp_max)} F`,
+            temp_min: `${this.KtoF(data.main.temp_min)} F`,
+            icons: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`
           }
         );
       } else {
@@ -62,24 +64,28 @@ class Weather extends React.Component{
   render(){
 
     let temperature = (
-      <div>
-        <h2>Location: {this.state.location}</h2>
-        <h2>Temperature: {this.state.temp}</h2>
-        <h2>Max Temperature: {this.state.temp_max}</h2>
-        <h2>Min Temperature: {this.state.temp_min}</h2>
+      <div className='weather-description'>
+        <div className='weather-text'>
+          <h2>Location: {this.state.location}</h2>
+          <h2>Temperature: {this.state.temp}</h2>
+          <h2>Max Temperature: {this.state.temp_max}</h2>
+          <h2>Min Temperature: {this.state.temp_min}</h2>
+        </div>
+        <img src={this.state.icons}/>
       </div>
     );
 
     return(
       <div className='weather-container comp'>
         <div className='weather'>
-          <h1>
             {
               (this.currPos)?
               temperature :
-              'Locating Position'
+              (
+                <div className='weather-load'>
+                  Locating Position ... 
+                </div>)
             }
-          </h1>
         </div>
       </div>
     );

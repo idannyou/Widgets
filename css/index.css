@@ -16,6 +16,8 @@
 }
 
 .comp-delete{
+  background-color: rgba(0, 0, 0, .9);
+  border-radius: 4px;
   position: absolute;
   cursor: pointer;
   color: red;
@@ -34,20 +36,20 @@
 .comp{
   width: 400px;
   height: 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  color: black;
 }
 
 .clock-container{
   font-family: 'Josefin Sans', sans-serif;
   font-size: 20px;
-  color: black;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-  border-radius: 10px;
   background-image: url(../images/clockbackground.jpg);
-  background-position: center;
 }
 
 .time-container{
@@ -58,6 +60,26 @@
 }
 
 /*weather*/
+.weather-description, .weather-load{
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  width: 260px;
+  background-color: rgba(255, 255, 255, .9);
+  border-radius: 4px;
+}
+.weather-load{
+  text-align: center;
+}
+.weather-container{
+  font-family: 'Merriweather', serif;
+  font-size: 16px;
+  background-image: url(../images/weather.jpg);
+}
 .weather{
-  
+  border: 1px solid brown;
+}
+.weather-text{
+  display: flex;
+  flex-direction: column;
 }
