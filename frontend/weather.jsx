@@ -5,13 +5,23 @@ class Weather extends React.Component{
 
   constructor(props){
     super(props);
-
+    this.state = {
+      currPos: null
+    };
   }
 
 
+  componentDidMount(){
+    navigator.geolocation.getCurrentPosition((pos) => {
+      this.setState({
+        currPos: {lat: pos.coords.latitude, lng: pos.coords.longitude}
+      });
+    });
+  }
+
 
   render(){
-    let currPos = (this.props.currPos !== {})? this.props.currPos:'Location Not Found';
+    let currPos = (this.state.currPos)? this.state.currPos:'Locating Position';
     return(
       <div className='weather-container comp'>
         <div className='weather'>
