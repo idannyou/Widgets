@@ -9572,25 +9572,15 @@ var Root = function (_React$Component) {
       children: {},
       currKey: 0
     };
-    _this.currPos = {};
     _this.addComp = _this.addComp.bind(_this);
     _this.onClose = _this.onClose.bind(_this);
     return _this;
   }
 
   _createClass(Root, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      navigator.geolocation.getCurrentPosition(function (pos) {
-        _this2.currPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      });
-    }
-  }, {
     key: 'addComp',
     value: function addComp(comp) {
-      var _this3 = this;
+      var _this2 = this;
 
       var newChildren = Object.assign({}, this.state.children);
       var currKey = this.state.currKey;
@@ -9604,7 +9594,7 @@ var Root = function (_React$Component) {
             className: 'comp-delete fa fa-times',
             'aria-hidden': 'true',
             onClick: function onClick() {
-              return _this3.onClose(currKey);
+              return _this2.onClose(currKey);
             }
           }),
           comp
@@ -9632,7 +9622,7 @@ var Root = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       return _react2.default.createElement(
         'div',
@@ -9643,14 +9633,14 @@ var Root = function (_React$Component) {
           _react2.default.createElement(
             'button',
             { type: 'button', onClick: function onClick() {
-                return _this4.addComp(_react2.default.createElement(_clock2.default, null));
+                return _this3.addComp(_react2.default.createElement(_clock2.default, null));
               } },
             'Add Clock'
           ),
           _react2.default.createElement(
             'button',
             { type: 'button', onClick: function onClick() {
-                return _this4.addComp(_react2.default.createElement(_weather2.default, { currPos: _this4.currPos }));
+                return _this3.addComp(_react2.default.createElement(_weather2.default, null));
               } },
             'Add Weather'
           )
@@ -9802,23 +9792,116 @@ var Weather = function (_React$Component) {
   function Weather(props) {
     _classCallCheck(this, Weather);
 
-    return _possibleConstructorReturn(this, (Weather.__proto__ || Object.getPrototypeOf(Weather)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Weather.__proto__ || Object.getPrototypeOf(Weather)).call(this, props));
+
+    _this.state = {
+      location: null,
+      temp: null,
+      temp_max: null,
+      temp_min: null,
+      icons: null
+    };
+    _this.currPos = null;
+    _this.loadWeather = _this.loadWeather.bind(_this);
+    return _this;
   }
 
   _createClass(Weather, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      navigator.geolocation.getCurrentPosition(function (pos) {
+
+        _this2.currPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+
+        _this2.loadWeather();
+      });
+    }
+  }, {
+    key: 'KtoF',
+    value: function KtoF(k) {
+      var f = k * 9 / 5 - 459.67;
+      return Math.round(f, 2);
+    }
+  }, {
+    key: 'loadWeather',
+    value: function loadWeather() {
+      var _this3 = this;
+
+      var request = new XMLHttpRequest();
+      var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + this.currPos.lat + '&lon=' + this.currPos.lng + '&APPID=f816d7f39052e3a98b21952097a43076';
+      request.open('GET', url, true);
+
+      request.onload = function () {
+        var resp = request.responseText;
+        if (request.status >= 200 && request.status < 400) {
+          // Success!
+          var data = JSON.parse(resp);
+          console.log(data);
+          _this3.setState({
+            location: data.name,
+            temp: _this3.KtoF(data.main.temp) + ' F',
+            temp_max: _this3.KtoF(data.main.temp_max) + ' F',
+            temp_min: _this3.KtoF(data.main.temp_min) + ' F',
+            icons: 'http://openweathermap.org/img/w/' + data.weather[0].icon + '.png'
+          });
+        } else {
+          // We reached our target server, but it returned an error
+          alert(resp);
+        }
+      };
+
+      request.send();
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var currPos = this.props.currPos !== {} ? this.props.currPos : 'Location Not Found';
+
+      var temperature = _react2.default.createElement(
+        'div',
+        { className: 'weather-description' },
+        _react2.default.createElement(
+          'div',
+          { className: 'weather-text' },
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Location: ',
+            this.state.location
+          ),
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Temperature: ',
+            this.state.temp
+          ),
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Max Temperature: ',
+            this.state.temp_max
+          ),
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Min Temperature: ',
+            this.state.temp_min
+          )
+        ),
+        _react2.default.createElement('img', { src: this.state.icons })
+      );
+
       return _react2.default.createElement(
         'div',
         { className: 'weather-container comp' },
         _react2.default.createElement(
           'div',
           { className: 'weather' },
-          _react2.default.createElement(
-            'h1',
-            null,
-            currPos.toString()
+          this.currPos ? temperature : _react2.default.createElement(
+            'div',
+            { className: 'weather-load' },
+            'Locating Position ...'
           )
         )
       );
