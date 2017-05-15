@@ -9709,16 +9709,11 @@ var AutoComplete = function (_React$Component) {
     };
     _this.onChange = _this.onChange.bind(_this);
     _this.autoPopulate = _this.autoPopulate.bind(_this);
-    _this.strArray = null;
+    _this.strArray = [];
     return _this;
   }
 
   _createClass(AutoComplete, [{
-    key: 'inputStr',
-    value: function inputStr() {
-      var strArray = [];
-    }
-  }, {
     key: 'autoPopulate',
     value: function autoPopulate() {
       this.strArray = ['Abba', 'Barney', 'Barbara', 'Jeff', 'Jenny', 'Sarah', 'Sally', 'Xander'];
@@ -9739,7 +9734,7 @@ var AutoComplete = function (_React$Component) {
         var newStrArray = [];
         var strArray = _this2.state.strArray;
 
-        if (strArray === null) {
+        if (strArray.length === 0) {
           return null;
         }
 
@@ -9758,6 +9753,9 @@ var AutoComplete = function (_React$Component) {
   }, {
     key: 'arrayToList',
     value: function arrayToList(arr) {
+      if (arr.length === 0) {
+        return null;
+      }
       var listArr = [];
       for (var i = 0; i < arr.length; i++) {
         listArr.push(_react2.default.createElement(
@@ -9778,7 +9776,7 @@ var AutoComplete = function (_React$Component) {
         { className: 'comp' },
         _react2.default.createElement(
           'div',
-          null,
+          { className: 'autocomplete' },
           _react2.default.createElement('input', {
             type: 'text',
             onChange: function onChange(event) {
