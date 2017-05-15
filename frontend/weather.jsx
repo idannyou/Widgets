@@ -33,8 +33,10 @@ class Weather extends React.Component{
 
   loadWeather(){
     let request = new XMLHttpRequest();
+    let cors_api_url = 'https://cors-anywhere.herokuapp.com/';
     let url = `http://api.openweathermap.org/data/2.5/weather?lat=${this.currPos.lat}&lon=${this.currPos.lng}&APPID=f816d7f39052e3a98b21952097a43076`;
-    request.open('GET', url, true);
+
+    request.open('GET', cors_api_url + url);
 
     request.onload = () => {
       let resp = request.responseText;
@@ -83,7 +85,7 @@ class Weather extends React.Component{
               temperature :
               (
                 <div className='weather-load'>
-                  Locating Position ... 
+                  Locating Position ...
                 </div>)
             }
         </div>
