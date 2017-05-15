@@ -9830,8 +9830,10 @@ var Weather = function (_React$Component) {
       var _this3 = this;
 
       var request = new XMLHttpRequest();
+      var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
       var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + this.currPos.lat + '&lon=' + this.currPos.lng + '&APPID=f816d7f39052e3a98b21952097a43076';
-      request.open('GET', url, true);
+
+      request.open('GET', cors_api_url + url);
 
       request.onload = function () {
         var resp = request.responseText;
