@@ -33,6 +33,7 @@ class Weather extends React.Component{
 
   loadWeather(){
     let request = new XMLHttpRequest();
+    // using proxy to avoid mix content error
     let cors_api_url = 'https://cors-anywhere.herokuapp.com/';
     let url = `http://api.openweathermap.org/data/2.5/weather?lat=${this.currPos.lat}&lon=${this.currPos.lng}&APPID=f816d7f39052e3a98b21952097a43076`;
 
@@ -43,7 +44,6 @@ class Weather extends React.Component{
       if (request.status >= 200 && request.status < 400) {
         // Success!
         let data = JSON.parse(resp);
-        console.log(data)
         this.setState(
           {
             location: data.name,
