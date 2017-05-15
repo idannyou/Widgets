@@ -42,30 +42,53 @@ class AutoComplete extends React.Component{
     }, () => {
       let newStrArray = [];
       let strArray = this.state.strArray;
+
+      if (strArray === null){
+        return null;
+      }
+
       for(let i=0; i <strArray.length; i++){
         let currLC = strArray[i].toLowerCase();
         if (targStr.test(currLC)){
           newStrArray.push(strArray[i]);
         }
       }
-      newStrArray = (newStrArray.length == 0)?  ['No Match'] : newStrArray;
+      newStrArray = (newStrArray.length === 0)?  ['No Match'] : newStrArray;
       this.setState({
         strArray: newStrArray
       });
 
     });
+  }
 
+  arrayToList(arr){
+    let listArr = [];
+    for (let i = 0; i < arr.length; i ++){
+      listArr.push(<li key={i}>{arr[i]}</li>);
+    }
+    return listArr;
   }
 
   render(){
     return(
-      <div>
-        AutoComplete
-        <input type='text' onChange={(event) => this.onChange(event)}/>
-        <ul>
-          {this.state.strArray}
-        </ul>
-        <input type='button' onClick={this.autoPopulate} value='Auto Populate'/>
+      <div className='comp'>
+        <div>
+          <input
+            type='text'
+            onChange={(event) => this.onChange(event)}
+            placeholder = 'Search ...'
+            className='autocomplete-input'
+            />
+          <ul className='autocomplete-list'>
+            {this.arrayToList(this.state.strArray)}
+          </ul>
+          <input
+            type='button'
+            onClick={this.autoPopulate}
+            value='Auto Populate'
+            className = 'autocomplete-populate'
+            />
+        </div>
       </div>
     );
   }
