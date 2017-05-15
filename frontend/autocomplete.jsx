@@ -11,11 +11,7 @@ class AutoComplete extends React.Component{
     };
     this.onChange = this.onChange.bind(this);
     this.autoPopulate = this.autoPopulate.bind(this);
-    this.strArray = null;
-  }
-
-  inputStr(){
-    let strArray = [];
+    this.strArray = [];
   }
 
   autoPopulate(){
@@ -43,7 +39,7 @@ class AutoComplete extends React.Component{
       let newStrArray = [];
       let strArray = this.state.strArray;
 
-      if (strArray === null){
+      if (strArray.length === 0){
         return null;
       }
 
@@ -62,6 +58,9 @@ class AutoComplete extends React.Component{
   }
 
   arrayToList(arr){
+    if (arr.length === 0){
+      return null;
+    }
     let listArr = [];
     for (let i = 0; i < arr.length; i ++){
       listArr.push(<li key={i}>{arr[i]}</li>);
@@ -72,7 +71,7 @@ class AutoComplete extends React.Component{
   render(){
     return(
       <div className='comp'>
-        <div>
+        <div className='autocomplete'>
           <input
             type='text'
             onChange={(event) => this.onChange(event)}
