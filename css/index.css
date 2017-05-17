@@ -87,6 +87,7 @@
 /*autocomplete*/
 .autocomplete-input{
   border: 1px solid red;
+  text-align: center;
 }
 
 .autocomplete-populate{
