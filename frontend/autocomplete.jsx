@@ -10,22 +10,30 @@ class AutoComplete extends React.Component{
       strArray: []
     };
     this.onChange = this.onChange.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
     this.autoPopulate = this.autoPopulate.bind(this);
     this.addInput = this.addInput.bind(this);
     this.strArray = [];
   }
 
   autoPopulate(){
-    this.strArray = [
-      'Abba',
-      'Barney',
-      'Barbara',
-      'Jeff',
-      'Jenny',
-      'Sarah',
-      'Sally',
-      'Xander'
-    ];
+    let populateArr =
+      [
+        'Abba',
+        'Barney',
+        'Barbara',
+        'Jeff',
+        'Jenny',
+        'Sarah',
+        'Sally',
+        'Xander'
+      ]
+    ;
+
+    populateArr.forEach((el) =>{
+      this.strArray.push(el);
+    });
+
     this.setState({
       strArray: this.strArray
     });
@@ -71,12 +79,25 @@ class AutoComplete extends React.Component{
 
   addInput(){
     let inputTxt = (
-      <input type='text'/>
+      <input type='text'
+        onChange = {(event) => this.onChangeInput(event)}
+        key = {this.strArray.length}
+      />
     );
     this.strArray.push(inputTxt);
     this.setState({
       strArray: this.strArray
     });
+  }
+
+  onChangeInput(event){
+    event.preventDefault();
+    console.log(event.target.value)
+    // let key = event.target.getAttribute('data');
+    // console.log(key)
+    // console.log(this.strArray[key])
+    // this.strArray[key].props.value = 'test'
+    // console.log(this.strArray[key].props)
   }
 
   render(){
