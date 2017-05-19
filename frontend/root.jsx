@@ -14,16 +14,21 @@ class Root extends React.Component {
     };
     this.addComp = this.addComp.bind(this);
     this.onClose = this.onClose.bind(this);
+    this.onMouseEnter = this.onMouseEnter.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
   }
 
   addComp(comp){
     let newChildren = Object.assign({}, this.state.children);
     let currKey = this.state.currKey;
     newChildren[currKey] = (
-      <div key={currKey}>
+      <div key={currKey}
+        onMouseEnter = {() => this.onMouseEnter(currKey)}
+        onMouseLeave = {() => this.onMouseLeave(currKey)}
+      >
         <div className='comp-container'>
           <i
-            className="comp-delete fa fa-times"
+            className={`comp-delete fa fa-times close-${currKey} hidden`}
             aria-hidden="true"
             onClick={() => this.onClose(currKey)}
           >
@@ -36,6 +41,18 @@ class Root extends React.Component {
     this.setState({children: newChildren});
     this.setState({currKey: this.state.currKey + 1});
   }
+
+  onMouseEnter(currKey){
+    let element = document.getElementsByClassName(`close-${currKey}`);
+    element[0].classList.remove('hidden');
+  }
+
+  onMouseLeave(currKey){
+    let element = document.getElementsByClassName(`close-${currKey}`);
+    element[0].classList.add('hidden');
+  }
+
+
 
   onClose(key){
     let newChildren = Object.assign({}, this.state.children);
