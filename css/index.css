@@ -35,7 +35,6 @@
 
 .comp{
   width: 400px;
-  height: 200px;
   background-repeat: no-repeat;
   background-position: center;
   display: flex;
@@ -46,6 +45,7 @@
 }
 
 .clock-container{
+  height: 200px;
   font-family: 'Josefin Sans', sans-serif;
   font-size: 20px;
   text-align: center;
@@ -72,6 +72,7 @@
   text-align: center;
 }
 .weather-container{
+  height: 250px;
   font-family: 'Merriweather', serif;
   font-size: 16px;
   background-image: url(../images/weather.jpg);
@@ -85,20 +86,32 @@
 }
 
 /*autocomplete*/
-.autocomplete-input{
+.autocomplete-search{
   border: 1px solid red;
+  width: 100%;
 }
 
 .autocomplete-populate, .autocomplete-input{
   cursor: pointer;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.autocomplete-input-text{
+  border: 1px solid black;
+  width: 100%; 
 }
 
 .autocomplete-list{
+  height: 200px;
   display:flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 .autocomplete{
-  height: 200px;
-  overflow: scroll;
+  border: 1px solid black;
+  padding: 20px;
 }

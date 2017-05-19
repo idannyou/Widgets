@@ -88,6 +88,7 @@ class AutoComplete extends React.Component{
       <input type='text'
         onChange = {(event) => this.onChangeInput(event)}
         data = {this.strArray.length}
+        className = 'autocomplete-input-text'
       />
     );
     this.strArray.push([inputTxt]);
@@ -113,7 +114,7 @@ class AutoComplete extends React.Component{
             type='text'
             onChange={(event) => this.onChange(event)}
             placeholder = 'Search ...'
-            className='autocomplete-input'
+            className='autocomplete-search'
             />
           <ul className='autocomplete-list'>
             {this.arrayToList(this.state.strArray)}
