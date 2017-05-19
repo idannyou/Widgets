@@ -9578,6 +9578,8 @@ var Root = function (_React$Component) {
     };
     _this.addComp = _this.addComp.bind(_this);
     _this.onClose = _this.onClose.bind(_this);
+    _this.onMouseEnter = _this.onMouseEnter.bind(_this);
+    _this.onMouseLeave = _this.onMouseLeave.bind(_this);
     return _this;
   }
 
@@ -9590,12 +9592,19 @@ var Root = function (_React$Component) {
       var currKey = this.state.currKey;
       newChildren[currKey] = _react2.default.createElement(
         'div',
-        { key: currKey },
+        { key: currKey,
+          onMouseEnter: function onMouseEnter() {
+            return _this2.onMouseEnter(currKey);
+          },
+          onMouseLeave: function onMouseLeave() {
+            return _this2.onMouseLeave(currKey);
+          }
+        },
         _react2.default.createElement(
           'div',
           { className: 'comp-container' },
           _react2.default.createElement('i', {
-            className: 'comp-delete fa fa-times',
+            className: 'comp-delete fa fa-times close-' + currKey + ' hidden',
             'aria-hidden': 'true',
             onClick: function onClick() {
               return _this2.onClose(currKey);
@@ -9606,6 +9615,18 @@ var Root = function (_React$Component) {
       );
       this.setState({ children: newChildren });
       this.setState({ currKey: this.state.currKey + 1 });
+    }
+  }, {
+    key: 'onMouseEnter',
+    value: function onMouseEnter(currKey) {
+      var element = document.getElementsByClassName('close-' + currKey);
+      element[0].classList.remove('hidden');
+    }
+  }, {
+    key: 'onMouseLeave',
+    value: function onMouseLeave(currKey) {
+      var element = document.getElementsByClassName('close-' + currKey);
+      element[0].classList.add('hidden');
     }
   }, {
     key: 'onClose',
@@ -9712,6 +9733,7 @@ var AutoComplete = function (_React$Component) {
     _this.autoPopulate = _this.autoPopulate.bind(_this);
     _this.addInput = _this.addInput.bind(_this);
     _this.strArray = [];
+    _this.inputCount = 0;
     return _this;
   }
 
@@ -9722,6 +9744,8 @@ var AutoComplete = function (_React$Component) {
 
       var populateArr = ['Abba', 'Barney', 'Barbara', 'Jeff', 'Jenny', 'Sarah', 'Sally', 'Xander'];
 
+      this.inputCount += populateArr.length;
+      console.log(this.inputCount);
       populateArr.forEach(function (el) {
         _this2.strArray.push(el);
       });
@@ -9794,9 +9818,11 @@ var AutoComplete = function (_React$Component) {
         onChange: function onChange(event) {
           return _this4.onChangeInput(event);
         },
-        data: this.strArray.length
+        data: this.inputCount,
+        className: 'autocomplete-input-text'
       });
       this.strArray.push([inputTxt]);
+      this.inputCount++;
       this.setState({
         strArray: this.strArray
       });
@@ -9818,17 +9844,17 @@ var AutoComplete = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'comp' },
+        { className: 'comp autocomplete' },
         _react2.default.createElement(
           'div',
-          { className: 'autocomplete' },
+          { className: 'autocomplete-container' },
           _react2.default.createElement('input', {
             type: 'text',
             onChange: function onChange(event) {
               return _this5.onChange(event);
             },
             placeholder: 'Search ...',
-            className: 'autocomplete-input'
+            className: 'autocomplete-search'
           }),
           _react2.default.createElement(
             'ul',
