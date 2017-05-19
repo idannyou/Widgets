@@ -87,13 +87,25 @@
 }
 
 /*autocomplete*/
+
+.autocomplete{
+  border: 1px solid black;
+  padding: 20px;
+  background: black;
+}
+
 .autocomplete-container{
   margin-top: 10px;
+  background: rgb(255, 255, 255);
 }
 
 .autocomplete-search{
   border: 1px solid red;
   width: 100%;
+}
+
+.autocomplete-search:hover{
+  background: rgba(245, 167, 167, .1);
 }
 
 .autocomplete-populate, .autocomplete-input{
@@ -116,9 +128,4 @@
   overflow: auto;
   border: 1px solid green;
   margin: 20px 0px;
-}
-
-.autocomplete{
-  border: 1px solid black;
-  padding: 20px;
 }
