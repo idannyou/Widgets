@@ -24,6 +24,7 @@ class Root extends React.Component {
     newChildren[currKey] = (
       <div key={currKey}
         onMouseEnter = {() => this.onMouseEnter(currKey)}
+        onMouseOver = {() => this.onMouseEnter(currKey)}
         onMouseLeave = {() => this.onMouseLeave(currKey)}
       >
         <div className='comp-container'>
