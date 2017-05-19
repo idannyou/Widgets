@@ -53,8 +53,9 @@ class AutoComplete extends React.Component{
       }
 
       for(let i=0; i <strArray.length; i++){
-        let currLC = strArray[i].toLowerCase();
-        if (targStr.test(currLC)){
+        let currLC = (Array.isArray(strArray[i]))? strArray[i][1]:strArray[i];
+        currLC = (currLC)? currLC.toLowerCase() : null;
+        if (targStr.test(currLC) || !currLC){
           newStrArray.push(strArray[i]);
         }
       }
@@ -72,7 +73,12 @@ class AutoComplete extends React.Component{
     }
     let listArr = [];
     for (let i = 0; i < arr.length; i ++){
-      listArr.push(<li key={i}>{arr[i]}</li>);
+      if (Array.isArray(arr[i])){
+        let string = (arr[i][1])? arr[i][1]: arr[i][0];
+        listArr.push(<li key={i}>{string}</li>);
+      } else {
+        listArr.push(<li key={i}>{arr[i]}</li>);
+      }
     }
     return listArr;
   }
@@ -81,10 +87,10 @@ class AutoComplete extends React.Component{
     let inputTxt = (
       <input type='text'
         onChange = {(event) => this.onChangeInput(event)}
-        key = {this.strArray.length}
+        data = {this.strArray.length}
       />
     );
-    this.strArray.push(inputTxt);
+    this.strArray.push([inputTxt]);
     this.setState({
       strArray: this.strArray
     });
@@ -92,12 +98,11 @@ class AutoComplete extends React.Component{
 
   onChangeInput(event){
     event.preventDefault();
-    console.log(event.target.value)
-    // let key = event.target.getAttribute('data');
-    // console.log(key)
-    // console.log(this.strArray[key])
-    // this.strArray[key].props.value = 'test'
-    // console.log(this.strArray[key].props)
+    let key = event.target.getAttribute('data');
+    let newArr = [];
+    newArr[0] = (this.strArray[key][0]);
+    newArr[1] = (event.target.value);
+    this.strArray[key] = newArr;
   }
 
   render(){
