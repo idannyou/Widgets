@@ -36,14 +36,10 @@ class AutoComplete extends React.Component{
 
 
     populateArr.forEach((el) =>{
-      strArray[this.inputCount] = el;
-      this.inputCount ++;
+      this.addInput(el)
     });
 
-    this.setState({
-      strArray: strArray
-    });
-    this.strArray = strArray;
+
   }
 
   onChange(event){
@@ -53,19 +49,16 @@ class AutoComplete extends React.Component{
       strArray: this.strArray
     }, () => {
       let newStrArray = [];
-      let strArray = this.state.strArray;
+      let strArray = this.strArray;
+      let keys = Object.keys(strArray);
 
-      if (strArray.length === 0){
+      if (keys.length === 0){
         return null;
       }
 
-      let keys = Object.keys(strArray);
-
       for(let i=0; i <keys.length; i++){
-        // let currLC = (Array.isArray(strArray[i]))? strArray[i][1]:strArray[i];
-        let currLC = strArray[keys[i]].toLowerCase();
-        // currLC = (currLC)? currLC.toLowerCase() : null;
-        if (targStr.test(currLC) || !currLC){
+        let currLC = strArray[keys[i]].props.value.toLowerCase();
+        if (targStr.test(currLC)){
           newStrArray.push(strArray[i]);
         }
       }
@@ -78,44 +71,46 @@ class AutoComplete extends React.Component{
   }
 
   objToList(obj){
-    // if (obj.length === 0){
-    //   return null;
-    // }
+
     let listArr = [];
-    let keys = Object.keys(obj)
+    let keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i ++){
-      // if (Array.isArray(obj[i])){
-      //   let string = (obj[i][1])? obj[i][1]: obj[i][0];
-      //   listArr.push(<li key={i}>{string}</li>);
-      // } else {
-        listArr.push(<li key={i}>{obj[i]}</li>);
-      // }
+
+        listArr.push(
+          <li key={i}>{obj[i]}</li>);
     }
     return listArr;
   }
 
-  addInput(){
+  addInput(str){
+    let currKey = this.inputCount;
     let inputTxt = (
       <input type='text'
-        onChange = {(event) => this.onChangeInput(event)}
-        data = {this.inputCount}
+        onChange = {(event) => this.onChangeInput(event, currKey)}
         className = 'autocomplete-input-text'
+        value={`${str}`}
       />
     );
-    this.strArray.push([inputTxt]);
+    this.strArray[this.inputCount] = inputTxt;
     this.inputCount ++;
     this.setState({
       strArray: this.strArray
-    });
+    }, ()=> {});
   }
 
-  onChangeInput(event){
+  onChangeInput(event, currKey){
     event.preventDefault();
-    let key = event.target.getAttribute('data');
-    let newArr = [];
-    newArr[0] = (this.strArray[key][0]);
-    newArr[1] = (event.target.value);
-    this.strArray[key] = newArr;
+    let str = event.target.value;
+    this.strArray[currKey] = (
+      <input type='text'
+        onChange = {(event) => this.onChangeInput(event, currKey)}
+        className = 'autocomplete-input-text'
+        value= {str}
+      />
+    );
+    this.setState({
+      strArray: this.strArray
+    }, ()=> {});
   }
 
   render(){
@@ -133,7 +128,7 @@ class AutoComplete extends React.Component{
           </ul>
           <input
             type='button'
-            onClick={this.addInput}
+            onClick={() => this.addInput('')}
             value='Add Input'
             className = 'autocomplete-input'
             />
