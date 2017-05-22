@@ -7,17 +7,20 @@ class AutoComplete extends React.Component{
     super();
     this.state = {
       inputVal: '',
-      strArray: []
+      strArray: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onChangeInput = this.onChangeInput.bind(this);
     this.autoPopulate = this.autoPopulate.bind(this);
     this.addInput = this.addInput.bind(this);
-    this.strArray = [];
+    this.strArray = {};
     this.inputCount = 0;
   }
 
   autoPopulate(){
+
+    let strArray = Object.assign({}, this.state.strArray);
+
     let populateArr =
       [
         'Abba',
@@ -31,15 +34,16 @@ class AutoComplete extends React.Component{
       ]
     ;
 
-    this.inputCount += populateArr.length;
-    console.log(this.inputCount)
+
     populateArr.forEach((el) =>{
-      this.strArray.push(el);
+      strArray[this.inputCount] = el;
+      this.inputCount ++;
     });
 
     this.setState({
-      strArray: this.strArray
+      strArray: strArray
     });
+    this.strArray = strArray;
   }
 
   onChange(event){
@@ -55,9 +59,12 @@ class AutoComplete extends React.Component{
         return null;
       }
 
-      for(let i=0; i <strArray.length; i++){
-        let currLC = (Array.isArray(strArray[i]))? strArray[i][1]:strArray[i];
-        currLC = (currLC)? currLC.toLowerCase() : null;
+      let keys = Object.keys(strArray);
+
+      for(let i=0; i <keys.length; i++){
+        // let currLC = (Array.isArray(strArray[i]))? strArray[i][1]:strArray[i];
+        let currLC = strArray[keys[i]].toLowerCase();
+        // currLC = (currLC)? currLC.toLowerCase() : null;
         if (targStr.test(currLC) || !currLC){
           newStrArray.push(strArray[i]);
         }
@@ -70,18 +77,19 @@ class AutoComplete extends React.Component{
     });
   }
 
-  arrayToList(arr){
-    if (arr.length === 0){
-      return null;
-    }
+  objToList(obj){
+    // if (obj.length === 0){
+    //   return null;
+    // }
     let listArr = [];
-    for (let i = 0; i < arr.length; i ++){
-      if (Array.isArray(arr[i])){
-        let string = (arr[i][1])? arr[i][1]: arr[i][0];
-        listArr.push(<li key={i}>{string}</li>);
-      } else {
-        listArr.push(<li key={i}>{arr[i]}</li>);
-      }
+    let keys = Object.keys(obj)
+    for (let i = 0; i < keys.length; i ++){
+      // if (Array.isArray(obj[i])){
+      //   let string = (obj[i][1])? obj[i][1]: obj[i][0];
+      //   listArr.push(<li key={i}>{string}</li>);
+      // } else {
+        listArr.push(<li key={i}>{obj[i]}</li>);
+      // }
     }
     return listArr;
   }
@@ -121,7 +129,7 @@ class AutoComplete extends React.Component{
             className='autocomplete-search'
             />
           <ul className='autocomplete-list'>
-            {this.arrayToList(this.state.strArray)}
+            {this.objToList(this.state.strArray)}
           </ul>
           <input
             type='button'
