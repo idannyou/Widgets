@@ -103,6 +103,7 @@
   width: 100%;
 }
 
+.autocomplete-input-text:hover,
 .autocomplete-search:hover{
   background: rgba(245, 167, 167, .1);
 }
