@@ -78,7 +78,9 @@ class Root extends React.Component {
           <button type='button' onClick={() => this.addComp(<Weather />)}>Add Weather</button>
           <button type='button' onClick={() => this.addComp(<AutoComplete />)}>Add Auto Complete</button>
         </div>
-        {this.objToArray(this.state.children)}
+        <div>
+          {this.objToArray(this.state.children)}
+        </div>
       </div>
     );
   }
