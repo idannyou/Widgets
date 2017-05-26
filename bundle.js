@@ -9680,7 +9680,11 @@ var Root = function (_React$Component) {
             'Add Auto Complete'
           )
         ),
-        this.objToArray(this.state.children)
+        _react2.default.createElement(
+          'div',
+          null,
+          this.objToArray(this.state.children)
+        )
       );
     }
   }]);
@@ -9735,6 +9739,7 @@ var AutoComplete = function (_React$Component) {
     _this.onChangeInput = _this.onChangeInput.bind(_this);
     _this.autoPopulate = _this.autoPopulate.bind(_this);
     _this.addInput = _this.addInput.bind(_this);
+    _this.deleteInput = _this.deleteInput.bind(_this);
     _this.strObj = {};
     _this.inputCount = 0;
     return _this;
@@ -9745,8 +9750,6 @@ var AutoComplete = function (_React$Component) {
     value: function autoPopulate() {
       var _this2 = this;
 
-      var strObj = Object.assign({}, this.state.strObj);
-
       var populateArr = ['Abba', 'Barney', 'Barbara', 'Jeff', 'Jenny', 'Sarah', 'Sally', 'Xander'];
 
       populateArr.forEach(function (el) {
@@ -9756,15 +9759,16 @@ var AutoComplete = function (_React$Component) {
   }, {
     key: 'onChange',
     value: function onChange(event) {
-      var _this3 = this;
-
       event.preventDefault();
-      var targStr = new RegExp('^' + event.target.value.toLowerCase());
-      this.setState({
-        strObj: this.strObj
-      }, function () {
-        var newStrArray = [];
-        var strObj = _this3.strObj;
+      var inputStr = event.target.value;
+      var targStr = new RegExp('^' + inputStr.toLowerCase());
+      if (inputStr === '') {
+        this.setState({
+          strObj: this.strObj
+        });
+      } else {
+        var newStrObj = {};
+        var strObj = this.strObj;
         var keys = Object.keys(strObj);
 
         if (keys.length === 0) {
@@ -9772,16 +9776,16 @@ var AutoComplete = function (_React$Component) {
         }
 
         for (var i = 0; i < keys.length; i++) {
-          var currLC = strObj[keys[i]].props.value.toLowerCase();
+          var currLC = strObj[keys[i]].props.children[0].props.value.toLowerCase();
           if (targStr.test(currLC)) {
-            newStrArray.push(strObj[i]);
+            newStrObj[keys[i]] = strObj[keys[i]];
           }
         }
-        newStrArray = newStrArray.length === 0 ? ['No Match'] : newStrArray;
-        _this3.setState({
-          strObj: newStrArray
-        });
-      });
+        newStrObj = Object.keys(newStrObj).length === 0 ? ['No Match'] : newStrObj;
+        this.setState({
+          strObj: newStrObj
+        }, function () {});
+      }
     }
   }, {
     key: 'objToList',
@@ -9790,11 +9794,10 @@ var AutoComplete = function (_React$Component) {
       var listArr = [];
       var keys = Object.keys(obj);
       for (var i = 0; i < keys.length; i++) {
-
         listArr.push(_react2.default.createElement(
           'li',
           { key: i },
-          obj[i]
+          obj[keys[i]]
         ));
       }
       return listArr;
@@ -9802,36 +9805,55 @@ var AutoComplete = function (_React$Component) {
   }, {
     key: 'addInput',
     value: function addInput(str) {
-      var _this4 = this;
-
       var currKey = this.inputCount;
-      var inputTxt = _react2.default.createElement('input', { type: 'text',
-        onChange: function onChange(event) {
-          return _this4.onChangeInput(event, currKey);
-        },
-        className: 'autocomplete-input-text',
-        value: '' + str
-      });
+      var inputTxt = this.returnInputDiv(str, currKey);
       this.strObj[this.inputCount] = inputTxt;
       this.inputCount++;
-      this.setState({
-        strObj: this.strObj
-      }, function () {});
+      this.syncStrObj();
+    }
+  }, {
+    key: 'returnInputDiv',
+    value: function returnInputDiv(str, currKey) {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'autocomplete-input-text-container' },
+        _react2.default.createElement('input', { type: 'text',
+          onChange: function onChange(event) {
+            return _this3.onChangeInput(event, currKey);
+          },
+          className: 'autocomplete-input-text',
+          value: '' + str
+        }),
+        _react2.default.createElement(
+          'div',
+          { onClick: function onClick() {
+              return _this3.deleteInput(currKey);
+            },
+            className: 'pointer'
+          },
+          'X'
+        )
+      );
+    }
+  }, {
+    key: 'deleteInput',
+    value: function deleteInput(currKey) {
+      delete this.strObj[currKey];
+      this.syncStrObj();
     }
   }, {
     key: 'onChangeInput',
     value: function onChangeInput(event, currKey) {
-      var _this5 = this;
-
       event.preventDefault();
       var str = event.target.value;
-      this.strObj[currKey] = _react2.default.createElement('input', { type: 'text',
-        onChange: function onChange(event) {
-          return _this5.onChangeInput(event, currKey);
-        },
-        className: 'autocomplete-input-text',
-        value: str
-      });
+      this.strObj[currKey] = this.returnInputDiv(str, currKey);
+      this.syncStrObj();
+    }
+  }, {
+    key: 'syncStrObj',
+    value: function syncStrObj() {
       this.setState({
         strObj: this.strObj
       }, function () {});
@@ -9839,7 +9861,7 @@ var AutoComplete = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this6 = this;
+      var _this4 = this;
 
       return _react2.default.createElement(
         'div',
@@ -9850,7 +9872,7 @@ var AutoComplete = function (_React$Component) {
           _react2.default.createElement('input', {
             type: 'text',
             onChange: function onChange(event) {
-              return _this6.onChange(event);
+              return _this4.onChange(event);
             },
             placeholder: 'Search ...',
             className: 'autocomplete-search'
@@ -9863,7 +9885,7 @@ var AutoComplete = function (_React$Component) {
           _react2.default.createElement('input', {
             type: 'button',
             onClick: function onClick() {
-              return _this6.addInput('');
+              return _this4.addInput('');
             },
             value: 'Add Input',
             className: 'autocomplete-input'
