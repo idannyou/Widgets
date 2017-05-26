@@ -20,8 +20,6 @@ class AutoComplete extends React.Component{
 
   autoPopulate(){
 
-    let strObj = Object.assign({}, this.state.strObj);
-
     let populateArr =
       [
         'Abba',
@@ -42,11 +40,14 @@ class AutoComplete extends React.Component{
 
   onChange(event){
     event.preventDefault();
-    let targStr = new RegExp('^' + event.target.value.toLowerCase());
-    this.setState({
-      strObj: this.strObj
-    }, () => {
-      let newStrArray = [];
+    let inputStr = event.target.value;
+    let targStr = new RegExp('^' + inputStr.toLowerCase());
+    if (inputStr === ''){
+      this.setState({
+        strObj: this.strObj
+      });
+    } else {
+      let newStrObj = {};
       let strObj = this.strObj;
       let keys = Object.keys(strObj);
 
@@ -55,17 +56,16 @@ class AutoComplete extends React.Component{
       }
 
       for(let i=0; i <keys.length; i++){
-        let currLC = strObj[keys[i]].props.value.toLowerCase();
+        let currLC = strObj[keys[i]].props.children[0].props.value.toLowerCase();
         if (targStr.test(currLC)){
-          newStrArray.push(strObj[i]);
+          newStrObj[keys[i]]=(strObj[keys[i]]);
         }
       }
-      newStrArray = (newStrArray.length === 0)?  ['No Match'] : newStrArray;
+      newStrObj = (Object.keys(newStrObj).length === 0)?  ['No Match'] : newStrObj;
       this.setState({
-        strObj: newStrArray
-      });
-
-    });
+        strObj: newStrObj
+      }, () => {})   ;
+    }
   }
 
   objToList(obj){
@@ -73,16 +73,22 @@ class AutoComplete extends React.Component{
     let listArr = [];
     let keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i ++){
-
         listArr.push(
-          <li key={i}>{obj[i]}</li>);
+          <li key={i}>{obj[keys[i]]}</li>);
     }
     return listArr;
   }
 
   addInput(str){
     let currKey = this.inputCount;
-    let inputTxt = (
+    let inputTxt = this.returnInputDiv(str,currKey);
+    this.strObj[this.inputCount] = inputTxt;
+    this.inputCount ++;
+    this.syncStrObj();
+  }
+
+  returnInputDiv(str, currKey){
+    return (
       <div className = 'autocomplete-input-text-container'>
         <input type='text'
           onChange = {(event) => this.onChangeInput(event, currKey)}
@@ -96,32 +102,21 @@ class AutoComplete extends React.Component{
         </div>
       </div>
     );
-    this.strObj[this.inputCount] = inputTxt;
-    this.inputCount ++;
-    this.setState({
-      strObj: this.strObj
-    }, ()=> {});
   }
 
   deleteInput(currKey){
-    console.log(this.strObj)
     delete this.strObj[currKey];
-    this.setState({
-      strObj: this.strObj
-    }, () => {});
-    console.log(this.strObj)
+    this.syncStrObj();
   }
 
   onChangeInput(event, currKey){
     event.preventDefault();
     let str = event.target.value;
-    this.strObj[currKey] = (
-      <input type='text'
-        onChange = {(event) => this.onChangeInput(event, currKey)}
-        className = 'autocomplete-input-text'
-        value= {str}
-      />
-    );
+    this.strObj[currKey] = this.returnInputDiv(str, currKey);
+    this.syncStrObj();
+  }
+
+  syncStrObj(){
     this.setState({
       strObj: this.strObj
     }, ()=> {});
