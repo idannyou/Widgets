@@ -13,6 +13,7 @@ class AutoComplete extends React.Component{
     this.onChangeInput = this.onChangeInput.bind(this);
     this.autoPopulate = this.autoPopulate.bind(this);
     this.addInput = this.addInput.bind(this);
+    this.deleteInput = this.deleteInput.bind(this);
     this.strObj = {};
     this.inputCount = 0;
   }
@@ -82,17 +83,33 @@ class AutoComplete extends React.Component{
   addInput(str){
     let currKey = this.inputCount;
     let inputTxt = (
-      <input type='text'
-        onChange = {(event) => this.onChangeInput(event, currKey)}
-        className = 'autocomplete-input-text'
-        value={`${str}`}
-      />
+      <div className = 'autocomplete-input-text-container'>
+        <input type='text'
+          onChange = {(event) => this.onChangeInput(event, currKey)}
+          className = 'autocomplete-input-text'
+          value={`${str}`}
+          />
+        <div onClick = {() => this.deleteInput(currKey)}
+          className = 'pointer'
+          >
+          X
+        </div>
+      </div>
     );
     this.strObj[this.inputCount] = inputTxt;
     this.inputCount ++;
     this.setState({
       strObj: this.strObj
     }, ()=> {});
+  }
+
+  deleteInput(currKey){
+    console.log(this.strObj)
+    delete this.strObj[currKey];
+    this.setState({
+      strObj: this.strObj
+    }, () => {});
+    console.log(this.strObj)
   }
 
   onChangeInput(event, currKey){

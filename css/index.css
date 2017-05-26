@@ -1,3 +1,7 @@
+.pointer{
+  cursor: pointer;
+}
+
 /*container*/
 
 .container{
@@ -117,8 +121,7 @@
 }
 
 .autocomplete-input-text{
-  border: 1px solid black;
-  width: 100%;
+  width: 90%;
 }
 
 .autocomplete-list{
@@ -128,4 +131,8 @@
   overflow: auto;
   border: 1px solid green;
   margin: 20px 0px;
+}
+
+.autocomplete-input-text-container{
+  display: flex;
 }

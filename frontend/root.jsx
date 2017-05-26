@@ -4,6 +4,8 @@ import Clock from './clock';
 import Weather from './weather';
 import AutoComplete from './autocomplete';
 
+
+
 class Root extends React.Component {
 
   constructor(){
@@ -86,6 +88,5 @@ class Root extends React.Component {
   }
 
 }
-
 
 export default Root;
