@@ -35,6 +35,15 @@
   border: 1px solid black;
 }
 
+.container-button button{
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: black;
+  color: white;
+}
+
 /*clock*/
 
 .comp{
